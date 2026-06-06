@@ -11,17 +11,16 @@ def n_list_creator():
 def compare_nums(nums_list):
     #nums_list = n_list_creator()
 
-    print(nums_list[0])
-    print(nums_list[1])
-    print(nums_list[2])
-    #print(nums_list[3])
+    print("\n")
+    print("From the given set of numbers")
 
-    for i in range(0, len(nums_list)):
-        if nums_list[i] > nums_list[i-1]:
-            great_num = nums_list[i]
-        else:
-            great_num = nums_list[i-1]
+    for j in range(0, 2*len(nums_list)):
+        for i in range(0, len(nums_list)):
+            if nums_list[i] > nums_list[i-1]:
+                great_num = nums_list[i]
+            else:
+                great_num = nums_list[i-1]
 
-    print(great_num)
+    print("the greatest is: ", great_num)
 
 compare_nums(n_list_creator())
