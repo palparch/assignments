@@ -32,20 +32,31 @@ def enterstddata():
         file.write("\n")
 
 
-def displayrecords():
+def displayrecords(rollindex):
     with open('students.csv', 'r') as f:
         mycsv = csv.reader(f)
-        i = 0
         for row in mycsv:
-            print("first i: ", i)
-            text = row[i]
-            print(text)
-            print("second i: ", i)
-            i+=1
+            i = 0
+            print("\n")
+            while i != 9:
+                print(row[i])
+                i+=1
 
 
-def searchstdbyrollno():
-    print("WIP nga")
+def searchstdbyrollno(reqrollno):
+    with open('students.csv', 'r') as f:
+        mycsv = csv.reader(f)
+        rollnolist = []
+        for row in mycsv:
+            rollnolist.append(row[1]) 
+        modifrollno = ' RollNo:' + str(reqrollno)
+        #print(modifrollno)
+        for rno in rollnolist:
+            if rno == modifrollno:
+                rnindex = rollnolist.index(rno)
+            #print(rnindex)
+            #print(row[:])
+            print(row[])
 
 def displaytopper():
     print("WIP nga")
@@ -62,7 +73,8 @@ if user_input == 1:
 elif user_input == 2:
     displayrecords()
 elif user_input == 3:
-    searchstdbyrollno()
+    reqrollno = int(input("Which roll no.: "))
+    searchstdbyrollno(reqrollno)
 elif user_input == 4:
     displaytopper()
 elif user_input == 5:
