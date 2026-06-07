@@ -16,4 +16,8 @@ studentseries = pd.Series([name, rollno, classname, section, markse, marksp, mar
 
 
 with open("students.csv", "a") as file:
-    file.write(data_list)
+    for i, v in studentseries.items():
+        entry = str(i) + ":" + str(v)
+        file.write(entry)
+        file.write(" ")
+    file.write("\n")
