@@ -9,6 +9,47 @@ print("3. Search a student by roll number")
 print("4. Display topper of the class")
 print("5. Display subject-wise average marks")
 
+def findmaxandindex(givenlist):
+    modiflist = []
+    modiflist[:] = givenlist[:]
+    for i in range(0, len(modiflist)):
+        for j in range(0, len(modiflist)):
+            if modiflist[i] > modiflist[j]:
+                modiflist[i],modiflist[j] = modiflist[j],modiflist[i]
+    
+    maxnum = modiflist[0]
+
+    counter = -1
+    for num in givenlist:
+        counter+=1
+        if num == maxnum:
+            break
+    
+    return maxnum, counter
+
+
+
+def wordstoint(givenlist):
+    intwordlist = []
+    wordlist = []
+    for i in givenlist:
+        wordlist.append(i)
+
+    for i in range(0, len(wordlist)):
+        try:
+            testvar = int(wordlist[i])
+            intwordlist.append(testvar)
+        except:
+            continue
+
+    finalint = ""
+
+    for i in range(0, len(intwordlist)):
+        finalint+=str(intwordlist[i])
+
+    return int(finalint)
+
+
 def enterstddata():
     name = input("Enter the student's name: ")
     rollno = int(input("Enter the roll number: "))
@@ -49,9 +90,7 @@ def searchstdbyrollno(reqrollno):
     with open('students.csv', 'r') as f:
         mycsv = csv.reader(f)
         csvlist = list(mycsv)
-
         rolltocheck = 'RollNo:' + str(reqrollno)
-
         counter = 0
         
         for row in csvlist:
@@ -66,7 +105,33 @@ def searchstdbyrollno(reqrollno):
 
 
 def displaytopper():
-    print("WIP nga")
+    with open('students.csv', 'r') as f:
+        mycsv = csv.reader(f)
+        csvlist = list(mycsv)
+        counter = 0
+    
+        marksineng = []
+        marksinphy = []
+        marksinchem = []
+        marksinmaths = []
+        marksinip = []
+
+        for row in csvlist:
+            marksineng.append(wordstoint(row[4]))
+            marksinphy.append(wordstoint(row[5]))
+            marksinchem.append(wordstoint(row[6]))
+            marksinmaths.append(wordstoint(row[7]))
+            marksinip.append(wordstoint(row[8]))
+
+        markslist = []
+        for i in range(0, len(marksineng)):
+            totalmarks = int(str(marksineng[i]+marksinphy[i]+marksinchem[i]+marksinmaths[i]+marksinip[i]))
+            markslist.append(totalmarks)
+        
+        print("max marks: ", findmaxandindex(markslist[:]))
+        maxmarks, topperindex = findmaxandindex(markslist[:])
+
+        print(csvlist[topperindex])
 
 def subavgmarks():
     print("WIP nga")
@@ -84,6 +149,7 @@ elif user_input == 3:
     searchstdbyrollno(reqrollno)
 elif user_input == 4:
     displaytopper()
+    #print(wordstoint('MarksinEnglish:81'))
 elif user_input == 5:
     subavgmarks()
 else:
