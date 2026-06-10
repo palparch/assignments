@@ -49,17 +49,10 @@ def displayrecords():
 def searchstdbyrollno(reqrollno):
     with open('students.csv', 'r') as f:
         mycsv = csv.reader(f)
-        rollnolist = []
         for row in mycsv:
-            rollnolist.append(row[1]) 
-        modifrollno = ' RollNo:' + str(reqrollno)
-        #print(modifrollno)
-        for rno in rollnolist:
-            if rno == modifrollno:
-                rnindex = rollnolist.index(rno)
-            #print(rnindex)
-            #print(row[:])
-            print(row[:])
+            print(row)
+
+
 
 def displaytopper():
     print("WIP nga")
