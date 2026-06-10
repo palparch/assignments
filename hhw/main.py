@@ -22,14 +22,13 @@ def enterstddata():
     marksip = int(input("Marks in IP: "))
 
     studentseries = pd.Series([name, rollno, classname, section, markse, marksp, marksc, marksm, marksip],
-                          index = ['Name', 'RollNo', 'Classname', 'Section', 'Marks in English', 'Marks in Physics', 'Marks in Chemistry', 'Marks in Maths', 'Marks in IP'])
+                          index = ['Name', 'RollNo', 'Classname', 'Section', 'MarksinEnglish', 'MarksinPhysics', 'MarksinChemistry', 'MarksinMaths', 'MarksinIP'])
 
 
     with open("students.csv", "a") as file:
         for i, v in studentseries.items():
             entry = str(i) + ":" + str(v) + ","
             file.write(entry)
-            file.write(" ")
         file.write("\n")
 
 #def loadcsvtopandas():
@@ -49,17 +48,22 @@ def displayrecords():
 def searchstdbyrollno(reqrollno):
     with open('students.csv', 'r') as f:
         mycsv = csv.reader(f)
-        rollnolist = []
-        for row in mycsv:
-            rollnolist.append(row[1]) 
-        modifrollno = ' RollNo:' + str(reqrollno)
-        #print(modifrollno)
-        for rno in rollnolist:
-            if rno == modifrollno:
-                rnindex = rollnolist.index(rno)
-            #print(rnindex)
-            #print(row[:])
-            print(row[:])
+        csvlist = list(mycsv)
+
+        rolltocheck = 'RollNo:' + str(reqrollno)
+
+        counter = 0
+        
+        for row in csvlist:
+            if str(row[1]) == rolltocheck:
+                print("Roll number successfully found.")
+                break
+                #print(csvlist[counter])
+            else:
+                counter+=1
+        print(csvlist[counter])
+
+
 
 def displaytopper():
     print("WIP nga")
