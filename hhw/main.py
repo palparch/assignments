@@ -1,6 +1,7 @@
 import pandas as pd
 import csv
 
+# print menu
 print("Select an option:")
 print("1. Enter new student data")
 print("2. Display all records")
@@ -31,8 +32,10 @@ def enterstddata():
             file.write(" ")
         file.write("\n")
 
+#def loadcsvtopandas():
+    
 
-def displayrecords(rollindex):
+def displayrecords():
     with open('students.csv', 'r') as f:
         mycsv = csv.reader(f)
         for row in mycsv:
@@ -56,7 +59,7 @@ def searchstdbyrollno(reqrollno):
                 rnindex = rollnolist.index(rno)
             #print(rnindex)
             #print(row[:])
-            print(row[])
+            print(row[:])
 
 def displaytopper():
     print("WIP nga")
