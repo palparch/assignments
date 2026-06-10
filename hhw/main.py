@@ -134,9 +134,71 @@ def displaytopper():
         print(csvlist[topperindex])
 
 def subavgmarks():
-    print("WIP nga")
-    
-    
+    with open('students.csv', 'r') as f:
+        mycsv = csv.reader(f)
+        csvlist = list(mycsv)
+
+        alleng = []
+        allphy = []
+        allchem = []
+        allmaths = []
+        allip = []
+
+        for row in csvlist:
+            alleng.append(wordstoint(row[4]))
+            allphy.append(wordstoint(row[5]))
+            allchem.append(wordstoint(row[6]))
+            allmaths.append(wordstoint(row[7]))
+            allip.append(wordstoint(row[8]))
+
+        avgeng, avgphy, avgchem, avgmaths, avgip = [], [], [], [], []
+
+        totale, totalp, totalc, totalm, totali = 0, 0, 0, 0, 0
+        for marks in alleng:
+            totale+=marks
+        avgeng = totale/(len(alleng))
+        
+        for marks in allphy:
+            totalp+=marks
+        avgphy = totalp/(len(allphy))
+
+        for marks in allchem:
+            totalc+=marks
+        avgchem = totalc/(len(allchem))
+
+        for marks in allmaths:
+            totalm+=marks
+        avgmaths = totalm/(len(allmaths))
+
+        for marks in allip:
+            totali+=marks
+        avgip = totali/(len(allip))
+        
+
+        print("\n")
+        print("----------------------")
+
+        print("Select the subject for which you want the average marks")
+        print("1. English")
+        print("2. Physics")
+        print("3. Chemistry")
+        print("4. Maths")
+        print("5. IP")
+
+        user_input = int(input("Enter your choice: "))
+
+        if user_input == 1:
+            print("Average in English: ", avgeng)
+        elif user_input == 2:
+            print("Average in Physics: ", avgphy)
+        elif user_input == 3:
+            print("Average in Chemistry: ", avgchem)
+        elif user_input == 4:
+            print("Average in Maths: ", avgmaths)
+        elif user_input == 5:
+            print("Average in IP: ", avgip)
+        else: 
+            print("That's not a valid option. Please enter a valid option")
     
 user_input = int(input("What do you want to do? Enter the number corresponding to the function you want to do: "))
 
