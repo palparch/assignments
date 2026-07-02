@@ -96,8 +96,8 @@ def searchstdbyrollno(reqrollno):
 
 
 
-def displaytopper():
-    classtocheck = 'Classname:' + str(input("From which class? :"))
+def displaytopper(classnum):
+    classtocheck = 'Classname:' + str(classnum)
     counter = 0
     print(classtocheck)
 
@@ -183,7 +183,7 @@ def subavgmarks():
         print("Average in IP: ", avgip)
             
 def exportsummary():
-    
+     
             
             
 # print menu
@@ -206,7 +206,8 @@ elif user_input == 3:
     reqrollno = int(input("Which roll no.: "))
     searchstdbyrollno(reqrollno)
 elif user_input == 4:
-    displaytopper()
+    classnum = int(input("From which class? :"))
+    displaytopper(classnum)
     #print(wordstoint('MarksinEnglish:81'))
 elif user_input == 5:
     subavgmarks()
