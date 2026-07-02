@@ -1,14 +1,6 @@
 import pandas as pd
 import csv
 
-# print menu
-print("Select an option:")
-print("1. Enter new student data")
-print("2. Display all records")
-print("3. Search a student by roll number")
-print("4. Display topper of the class")
-print("5. Display subject-wise average marks")
-
 def findmaxandindex(givenlist):
     modiflist = []
     modiflist[:] = givenlist[:]
@@ -199,6 +191,17 @@ def subavgmarks():
             print("Average in IP: ", avgip)
         else: 
             print("That's not a valid option. Please enter a valid option")
+            
+            
+            
+            
+# print menu
+print("Select an option:")
+print("1. Enter new student data")
+print("2. Display all records")
+print("3. Search a student by roll number")
+print("4. Display topper of the class")
+print("5. Display subject-wise average marks")
     
 user_input = int(input("What do you want to do? Enter the number corresponding to the function you want to do: "))
 
