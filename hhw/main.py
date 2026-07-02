@@ -48,11 +48,20 @@ def enterstddata():
     classname = int(input("Enter the class: "))
     section = input("Enter the section: ")
     print("Now please enter the marks of the individual subjects.")
-    markse = int(input("Marks in English: "))
-    marksp = int(input("Marks in Physics: "))
-    marksc = int(input("Marks in Chemistry: "))
-    marksm = int(input("Marks in Maths: "))
-    marksip = int(input("Marks in IP: "))
+    try:
+        markse = int(input("Marks in English: "))
+        marksp = int(input("Marks in Physics: "))
+        marksc = int(input("Marks in Chemistry: "))
+        marksm = int(input("Marks in Maths: "))
+        marksip = int(input("Marks in IP: "))
+    except:
+        print("Invalid value entered. Please enter an integer value from 0 to 100 only for marks in each subject.")
+        return
+
+    if classname > 12 or classname < 1:
+        print("Class ", classname, " doesn't exist. Please try again with a valid class.")
+        return
+    
 
     studentseries = pd.Series([name, rollno, classname, section, markse, marksp, marksc, marksm, marksip],
                           index = ['Name', 'RollNo', 'Classname', 'Section', 'MarksinEnglish', 'MarksinPhysics', 'MarksinChemistry', 'MarksinMaths', 'MarksinIP'])
@@ -64,8 +73,6 @@ def enterstddata():
             file.write(entry)
         file.write("\n")
 
-#def loadcsvtopandas():
-    
 
 def displayrecords():
     with open('students.csv', 'r') as f:
@@ -131,6 +138,8 @@ def displaytopper(classnum):
 
         print(classlist[topper_index])
 
+        print("This student got", round((max_marks/500)*100, 2), "%")
+
 def subavgmarks():
     with open('students.csv', 'r') as f:
         mycsv = csv.reader(f)
@@ -182,10 +191,19 @@ def subavgmarks():
         print("Average in Maths: ", avgmaths)
         print("Average in IP: ", avgip)
             
-#def exportsummary():
-     
-            
-            
+def exportsummary():
+    classnumlist = [1,2,3,4,5,6,7,8,9,10,11,12]     
+
+    school_marks = []
+
+    for classnum in classnumlist:
+        try:
+            school_marks.append(displaytopper(classnum))
+        except:
+            school_marks.append(0)
+    print(school_marks)
+
+
 # print menu
 print("Select an option:")
 print("1. Enter new student data")
@@ -211,5 +229,7 @@ elif user_input == 4:
     #print(wordstoint('MarksinEnglish:81'))
 elif user_input == 5:
     subavgmarks()
+elif user_input == 6:
+    exportsummary()
 else:
     print("This is not a valid option. Please enter a valid option.")
