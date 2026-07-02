@@ -182,7 +182,7 @@ def subavgmarks():
         print("Average in Maths: ", avgmaths)
         print("Average in IP: ", avgip)
             
-def exportsummary():
+#def exportsummary():
      
             
             
