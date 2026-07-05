@@ -1,4 +1,3 @@
-import pandas as pd
 import math
 import csv
 
@@ -111,16 +110,18 @@ def enterstddata():
         print("Class ", classname, " doesn't exist. Please try again with a valid class.")
         return
     
-
-    studentseries = pd.Series([name, rollno, classname, section, markse, marksp, marksc, marksm, marksip],
-                          index = ['Name', 'RollNo', 'Classname', 'Section', 'MarksinEnglish', 'MarksinPhysics', 'MarksinChemistry', 'MarksinMaths', 'MarksinIP'])
-
-
     with open("students.csv", "a") as file:
-        for i, v in studentseries.items():
-            entry = str(i) + ":" + str(v) + ","
-            file.write(entry)
-        file.write("\n")
+        file.write("Name:" + str(name) +
+               ",RollNo:" + str(rollno) +
+               ",Classname:" + str(classname) +
+               ",Section:" + str(section) +
+               ",MarksinEnglish:" + str(markse) +
+               ",MarksinPhysics:" + str(marksp) +
+               ",MarksinChemistry:" + str(marksc) +
+               ",MarksinMaths:" + str(marksm) +
+               ",MarksinIP:" + str(marksip) +
+               "\n")
+    
 
 
 
@@ -303,10 +304,18 @@ def exportsummary():
 
     for classnum in classnumlist:
         rollnum = findtopperrollnum(int(classnum))
-        cleanprint(searchstdbyrollno(rollnum), str("Topper in Class " + str(classnum)))
-        print("\n")
 
-    cleanprint(subavgmarks(), "Average Marks")
+    with open("summary.csv", "a") as file:
+        for classnum in classnumlist:
+            rollnum = findtopperrollnum(int(classnum))
+            towrite = "TopperofClass" + str(classnum) + str(rollnum) + ","
+            print(towrite)
+            file.write(str(towrite))
+        subavgs = subavgmarks()
+        file.write("\n")
+        for subject in subavgs:
+            file.write(subject)
+            file.write(",")
 
 
 # print menu
