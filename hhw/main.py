@@ -1,5 +1,8 @@
 import pandas as pd
+import math
 import csv
+
+linelen = 34
 
 def findmaxandindex(givenlist):
     modiflist = []
@@ -42,12 +45,58 @@ def wordstoint(givenlist):
     return str(finalint)
 
 
+
+def countword(word):
+    wordlist = list(word)
+    wordcount = 0
+    for entity in word:
+        wordcount += 1
+    return int(wordcount)
+
+
+
+def cleanprint(listtoprint, title):
+    wordcount = int(countword(title))
+
+
+    print("+--------------------------------+")
+    print("|", end='')
+    print(" "*(math.floor((int(linelen-wordcount))/2)-1), end='')
+    print(title, end='')
+
+    if wordcount % 2 == 0:
+        print(" "*(math.floor((int(linelen-wordcount))/2)-1), end='')
+    else:
+        print(" "*(math.floor((int(linelen-wordcount))/2)), end='')
+    print("|")
+
+
+    print("+--------------------------------+")
+
+    for detail in listtoprint:
+        wordcount = countword(detail)
+        print("|", end='')
+        print(" "*2, end='')
+        print(detail, end='')
+        usedspace = countword(detail)
+        print(" "*(linelen-(wordcount + 4)), end='')
+        print("|", end='')
+        print("\n")
+
+    print("+--------------------------------+")
+
+
+
 def enterstddata():
+    print("\n")
+
+    print("To register a new student, enter the student's data as prompted.")
     name = input("Enter the student's name: ")
     rollno = int(input("Enter the roll number: "))
     classname = int(input("Enter the class: "))
     section = input("Enter the section: ")
-    print("Now please enter the marks of the individual subjects.")
+    print("\n")
+    print("Now, enter the marks of individual subjects as prompted.")
     try:
         markse = int(input("Marks in English: "))
         marksp = int(input("Marks in Physics: "))
@@ -74,40 +123,91 @@ def enterstddata():
         file.write("\n")
 
 
+
 def displayrecords():
+    stddata = []
+    j = 1
     with open('students.csv', 'r') as f:
         mycsv = csv.reader(f)
         for row in mycsv:
             i = 0
             print("\n")
             while i != 9:
-                print(row[i])
+                stddata.append(row[i])
                 i+=1
 
+            cleanprint(stddata, str("Student " + str(j) )) 
+            j += 1 
+            stddata = []
 
-def searchstdbyrollno(reqrollno):
+
+
+def searchstdbyrollno(rolltocheck):
     with open('students.csv', 'r') as f:
         mycsv = csv.reader(f)
         csvlist = list(mycsv)
-        rolltocheck = 'RollNo:' + str(reqrollno)
         counter = 0
-        
+       
+        flag = 0
+
         for row in csvlist:
-            if str(row[1]) == rolltocheck:
-                print("Roll number successfully found.")
-                break
-                #print(csvlist[counter])
+            try:
+                if str(row[1]) == rolltocheck:
+                    flag = 1
+                    break
+                    #print(csvlist[counter])
+                else:
+                    counter+=1
+            except:
+                print("\n")
+                print("Student not found")
+
+        if flag == 1:
+            return csvlist[counter]
+
+
+def findtopperrollnum(classnum):
+    classtocheck = 'Classname:' + str(classnum)
+    counter = 0
+
+    with open('students.csv', 'r') as f:
+        mycsv = csv.reader(f)
+        csvlist = list(mycsv)
+
+        classlist = []
+
+        for row in csvlist:
+            if str(row[2]) == classtocheck:
+                classlist.append(csvlist[counter])
+                counter+=1
+                    #print(csvlist[counter])
             else:
                 counter+=1
-        print(csvlist[counter])
+
+        marks_of_all = []
+        if classlist:
+            for student in classlist:
+                ineng = wordstoint(student[4])
+                inphy = wordstoint(student[5])
+                inchem = wordstoint(student[6])
+                inmaths = wordstoint(student[7])
+                inip = wordstoint(student[8])
+
+                marks_of_all.append(int(ineng) + int(inphy) + int(inchem) + int(inmaths) + int(inip)) 
+
+            max_marks, topper_index = findmaxandindex(marks_of_all)
+            return (classlist[topper_index])[1]
+        else:
+            print("No student found in class.")
+            return "None"
 
 
 
 def displaytopper(classnum):
     classtocheck = 'Classname:' + str(classnum)
     counter = 0
-    print(classtocheck)
 
+    
 
     with open('students.csv', 'r') as f:
         mycsv = csv.reader(f)
@@ -136,9 +236,13 @@ def displaytopper(classnum):
 
         max_marks, topper_index = findmaxandindex(marks_of_all)
 
-        print(classlist[topper_index])
+        cleanprint(classlist[topper_index], "Topper's details")
 
         print("This student got", round((max_marks/500)*100, 2), "%")
+        
+        return topper_index
+
+
 
 def subavgmarks():
     with open('students.csv', 'r') as f:
@@ -163,45 +267,46 @@ def subavgmarks():
         totale, totalp, totalc, totalm, totali = 0, 0, 0, 0, 0
         for marks in alleng:
             totale+=int(marks)
-        avgeng = totale/(len(alleng))
+        avgeng = round(totale/(len(alleng)), 2)
         
         for marks in allphy:
             totalp+=int(marks)
-        avgphy = totalp/(len(allphy))
+        avgphy = round(totalp/(len(allphy)), 2)
 
         for marks in allchem:
             totalc+=int(marks)
-        avgchem = totalc/(len(allchem))
+        avgchem = round(totalc/(len(allchem)), 2)
 
         for marks in allmaths:
             totalm+=int(marks)
-        avgmaths = totalm/(len(allmaths))
+        avgmaths = round(totalm/(len(allmaths)), 2)
 
         for marks in allip:
             totali+=int(marks)
-        avgip = totali/(len(allip))
+        avgip = round(totali/(len(allip)), 2)
         
 
-        print("\n")
-        print("----------------------")
+        avgmarks = []
 
-        print("Average in English: ", avgeng)
-        print("Average in Physics: ", avgphy)
-        print("Average in Chemistry: ", avgchem)
-        print("Average in Maths: ", avgmaths)
-        print("Average in IP: ", avgip)
-            
+        avgmarks.append(f"Average in English: {avgeng}")
+        avgmarks.append(f"Average in Physics: {avgphy}")
+        avgmarks.append(f"Average in Chemistry: {avgchem}")
+        avgmarks.append(f"Average in Maths: {avgmaths}")
+        avgmarks.append(f"Average in IP: {avgip}")
+
+        return avgmarks
+
+
+
 def exportsummary():
-    classnumlist = [1,2,3,4,5,6,7,8,9,10,11,12]     
-
-    school_marks = []
+    classnumlist = [11,12]     
 
     for classnum in classnumlist:
-        try:
-            school_marks.append(displaytopper(classnum))
-        except:
-            school_marks.append(0)
-    print(school_marks)
+        rollnum = findtopperrollnum(int(classnum))
+        cleanprint(searchstdbyrollno(rollnum), str("Topper in Class " + str(classnum)))
+        print("\n")
+
+    cleanprint(subavgmarks(), "Average Marks")
 
 
 # print menu
@@ -209,8 +314,8 @@ print("Select an option:")
 print("1. Enter new student data")
 print("2. Display all records")
 print("3. Search a student by roll number")
-print("4. Display topper of the class")
-print("5. Display subject-wise average marks")
+print("4. Display the topper of a given class")
+print("5. Display subject-wise average marks of the whole school")
 print("6. Export a summary of the records to a CSV file")
 
 
@@ -221,14 +326,16 @@ if user_input == 1:
 elif user_input == 2:
     displayrecords()
 elif user_input == 3:
+    print("\n")
     reqrollno = int(input("Which roll no.: "))
-    searchstdbyrollno(reqrollno)
+    rolltocheck = 'RollNo:' + str(reqrollno)
+    cleanprint(searchstdbyrollno(rolltocheck), "Student details")
 elif user_input == 4:
-    classnum = int(input("From which class? :"))
+    classnum = int(input("From which class? : "))
     displaytopper(classnum)
     #print(wordstoint('MarksinEnglish:81'))
 elif user_input == 5:
-    subavgmarks()
+    cleanprint(subavgmarks(), "Average Marks")
 elif user_input == 6:
     exportsummary()
 else:
