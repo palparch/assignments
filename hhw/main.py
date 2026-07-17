@@ -309,7 +309,6 @@ def exportsummary():
         for classnum in classnumlist:
             rollnum = findtopperrollnum(int(classnum))
             towrite = "TopperofClass" + str(classnum) + str(rollnum) + ","
-            print(towrite)
             file.write(str(towrite))
         subavgs = subavgmarks()
         file.write("\n")
@@ -347,5 +346,6 @@ elif user_input == 5:
     cleanprint(subavgmarks(), "Average Marks")
 elif user_input == 6:
     exportsummary()
+    print("Successfully written data to CSV file.")
 else:
     print("This is not a valid option. Please enter a valid option.")
